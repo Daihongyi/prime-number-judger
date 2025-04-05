@@ -104,6 +104,24 @@ impl eframe::App for PrimeNumberJudger {
             } else {
                 ui.label("Click 'Judge' to check the number");
             }
+
+            //项目地址及许可证
+            ui.with_layout(
+                egui::Layout::bottom_up(egui::Align::Center),
+                |ui| {
+                    
+                    ui.label("https://github.com/Daihongyi/prime-number-judger");
+                },
+            );
+
+            ui.with_layout(
+                egui::Layout::bottom_up(egui::Align::RIGHT),
+
+                           |ui| {
+
+                               ui.label("MPL2.0");
+                           },
+            );
         });
     }
 }
