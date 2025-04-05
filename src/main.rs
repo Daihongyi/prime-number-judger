@@ -16,14 +16,28 @@ fn main() {
     );
 }
 
-#[derive(Default)]
 pub struct PrimeNumberJudger {
     input_number: i64,
     previous_input: i64,    // 跟踪上一次判断的数值
     is_prime: bool,
     factors: Vec<i64>,
     unknown_type: bool,
-    has_judged: bool,       // 是否已点击判断按钮
+    has_judged: bool,
+    project_address: String,
+}
+
+impl Default for PrimeNumberJudger {
+    fn default() -> Self {
+        Self {
+            input_number: 1024,
+            previous_input: 0,
+            is_prime: false,
+            factors: Vec::new(),
+            unknown_type: false,
+            has_judged: false,
+            project_address: String::from("https://github.com/Daihongyi/prime-number-judger"),
+        }
+    }
 }
 
 impl PrimeNumberJudger {
@@ -33,7 +47,7 @@ impl PrimeNumberJudger {
         self.unknown_type = false;
 
         let n = self.input_number;
-        
+
         if n <= 1 {
             self.unknown_type = true;
         } else {
@@ -54,7 +68,7 @@ impl PrimeNumberJudger {
             self.factors.dedup();
             self.is_prime = self.factors.is_empty();
         }
-        
+
         self.has_judged = true;
         self.previous_input = self.input_number;
     }
@@ -62,7 +76,6 @@ impl PrimeNumberJudger {
 
 impl eframe::App for PrimeNumberJudger {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // 检测输入变化时重置判断状态
         if self.input_number != self.previous_input {
             self.has_judged = false;
         }
@@ -105,22 +118,18 @@ impl eframe::App for PrimeNumberJudger {
                 ui.label("Click 'Judge' to check the number");
             }
 
-            //项目地址及许可证
             ui.with_layout(
                 egui::Layout::bottom_up(egui::Align::Center),
                 |ui| {
-                    
-                    ui.label("https://github.com/Daihongyi/prime-number-judger");
+                    ui.label(self.project_address.clone());
                 },
             );
 
             ui.with_layout(
                 egui::Layout::bottom_up(egui::Align::RIGHT),
-
-                           |ui| {
-
-                               ui.label("MPL2.0");
-                           },
+                |ui| {
+                    ui.label("MPL2.0");
+                },
             );
         });
     }
